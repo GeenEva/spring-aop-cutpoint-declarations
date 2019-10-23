@@ -12,6 +12,18 @@ public class MyDemoLoggingAspect {
 	@Pointcut("execution(* com.luv2code.aopdemo.dao.*.*(..))") //in the aopdemo.dao package, no matter the class or method
 	private void forDAOPackage() {};
 	
+	@Pointcut("execution(* com.luv2code.aopdemo.dao.*.get*(..))")
+	private void getter() {};
+	
+	@Pointcut("execution(* com.luv2code.aopdemo.dao.*.set*(..))")
+	private void setter() {};
+	
+	
+	
+	@Before("forDAOPackage() && !(getter() || setter())")
+	public void adviseForNotGetterORSetter() {
+		System.out.println("\n==========>>> Executing @Before advice ON ANYTHING IN DAO BUT GETTERS AND SETTERS");
+	}
 	
 	
 	@Before("forDAOPackage()")
@@ -21,6 +33,10 @@ public class MyDemoLoggingAspect {
 	
 	@Before("forDAOPackage()")
 	public void performAPIAnalytics() {
-		System.out.println("n==========>>> Executing @Before PERFORMING SOME API ANALYTICS");
+		System.out.println("\n==========>>> Executing @Before PERFORMING SOME API ANALYTICS");
 	}
+	
+	
+	
+	
 }
